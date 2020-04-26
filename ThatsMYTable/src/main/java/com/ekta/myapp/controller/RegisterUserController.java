@@ -11,6 +11,11 @@ import com.ekta.myapp.pojo.Person;
 import com.ekta.myapp.pojo.User;
 
 
+/**
+ * This class used for controlling the register process
+ * of User (client) of the restaurant
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("registerUser.htm")
 public class RegisterUserController {
@@ -23,6 +28,10 @@ public class RegisterUserController {
 //		binder.setValidator(validator);
 //	}
 
+	/*
+	 * This method get user information from View
+	 * And set them into Model
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	protected String doSubmitAction(@ModelAttribute("regUser") User user) throws Exception {
 //		validator.validate(user, result);
@@ -30,6 +39,9 @@ public class RegisterUserController {
 //			return "addUserForm";
 //		}
 
+		/*
+		 * Set User specification into dataBase
+		 */
 		try {
 			System.out.print("test");
 			UserDAO userDAO = new UserDAO();

@@ -19,91 +19,92 @@ public class RestaurantDAO extends DAO {
 	public Restaurant create(String restName,String restCity,int zipCode,RestaurantAdmin restAdmin)
             throws ProjException {
         try {
+
+
             begin();
             System.out.println("inside DAO");
-            
-            
+
             Restaurant rest = new Restaurant();;
-            
-           rest.setRestName(restName);
-           rest.setRestCity(restCity);
-           rest.setZipCode(zipCode);
-           rest.setRestAdmin(restAdmin);
-           restAdmin.setRestaurant(rest);
+
+            rest.setRestName(restName);
+            rest.setRestCity(restCity);
+            rest.setZipCode(zipCode);
+            rest.setRestAdmin(restAdmin);
+            restAdmin.setRestaurant(rest);
             
             getSession().merge(restAdmin);
             
             commit();
             return rest;
+
         } catch (HibernateException e) {
             rollback();
-            //throw new AdException("Could not create restaurant " + restName, e);
-            throw new ProjException("Exception while creating restaurant: " + e.getMessage());
+            throw new ProjException("Error creating restaurant: " + e.getMessage());
         }
     }
 	
 
+    //All restaurants in a city
     public List<Restaurant> get(String restCity)
             throws ProjException {
         try {
             begin();
             Query q = getSession().createQuery("from Restaurant where restCity = :restCity  ");
             q.setString("restCity", restCity);
+
             //Restaurant restaurant =(Restaurant) q.uniqueResult();
-            
+
            List<Restaurant> result = q.list();
-           
-          
-            
+
            commit();
-            return  result;
+
+           return  result;
            
         } catch (HibernateException e) {
             rollback();
-            throw new ProjException("Could not find match " + e.getMessage());
-            
-            
+            throw new ProjException("Cannot find restaurant in this city " + e.getMessage());
+
         }
-        
-       
     }
-    
+
+    //Return restaurant associated to an admin
     public Restaurant getMyRestaurant(RestaurantAdmin restAdmin)
             throws ProjException {
         try {
             begin();
             Query q = getSession().createQuery("from Restaurant where restAdminID=:restAdminID  ");
-           q.setParameter("restAdminID", restAdmin.getPersonID());
+
+            q.setParameter("restAdminID", restAdmin.getPersonID());
             Restaurant restaurant =(Restaurant) q.uniqueResult();
-            
-        
-            
-           commit();
+
+            commit();
             return restaurant;
            
         } catch (HibernateException e) {
             rollback();
-            throw new ProjException("Could not find match " + e.getMessage());
-            
-            
+            throw new ProjException("Cannot find match " + e.getMessage());
+
         }
-        
-       
+
     }
-    
+
+    //Fetch restaurant by name
     public Restaurant fetchMyRestaurant(String restName)
     {
     	try {
             begin();
             Query q = getSession().createQuery("from Restaurant where restName=:restName");
             q.setParameter("restName",restName);
+
             Restaurant restaurant =(Restaurant) q.uniqueResult();
+
             commit();
+
             return restaurant;
            
         } catch (HibernateException e) {
             rollback();
-           // throw new ProjException("Could not find match " + e.getMessage());
+           // throw new ProjException("Cannot find match " + e.getMessage());
             return null;
             
         }

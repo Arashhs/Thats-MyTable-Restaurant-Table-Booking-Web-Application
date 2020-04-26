@@ -12,10 +12,19 @@ import com.ekta.myapp.pojo.Person;
 import com.ekta.myapp.pojo.RestaurantAdmin;
 import com.ekta.myapp.pojo.User;
 
+/**
+ * This class used for controlling the register process
+ * of Admin (chief) of the restaurant
+ * @version 1.0
+ */
 @Controller
 @RequestMapping("registerAdmin.htm")
 public class RegisterAdminController {
-	
+
+	/*
+	 * This method get admin information from View
+	 * And set them into Model
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	protected String doSubmitAction(@ModelAttribute("regAdmin") RestaurantAdmin restAdmin) throws Exception {
 //		validator.validate(user, result);
@@ -23,6 +32,9 @@ public class RegisterAdminController {
 //			return "addUserForm";
 //		}
 
+		/*
+		 * Set Admin specification into dataBase
+		 */
 		try {
 			System.out.print("test");
 			RestAdminDAO restDAO = new RestAdminDAO();

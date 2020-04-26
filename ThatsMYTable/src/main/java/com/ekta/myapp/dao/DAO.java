@@ -10,11 +10,13 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 
 
-
+//Using this superclass to connect and make changes to the database
 public class DAO {
-private static final Logger log = Logger.getAnonymousLogger();
+    private static final Logger log = Logger.getAnonymousLogger(); //Anonymous logger to log to the console
     
-	private static final ThreadLocal sessionThread = new ThreadLocal();
+	private static final ThreadLocal sessionThread = new ThreadLocal(); //Using ThreadLocal to insure thread safety for variables
+
+    //Session factory from hibernate config file
     private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     protected DAO() {
@@ -22,10 +24,12 @@ private static final Logger log = Logger.getAnonymousLogger();
 
     public static Session getSession()
     {
+        //Session is used to connect to the database
         Session session = (Session) DAO.sessionThread.get();
         
         if (session == null)
         {
+            //There is no session to database, so we open a new one
             session = sessionFactory.openSession();
             DAO.sessionThread.set(session);
         }
@@ -34,12 +38,13 @@ private static final Logger log = Logger.getAnonymousLogger();
 
     protected void begin() {
         getSession().beginTransaction();
-    }
+    } //Beginning transaction
 
     protected void commit() {
         getSession().getTransaction().commit();
-    }
+    } //Committing transaction to database
 
+    //Rollback transaction to the initial state
     protected void rollback() {
         try {
             getSession().getTransaction().rollback();
@@ -54,6 +59,7 @@ private static final Logger log = Logger.getAnonymousLogger();
         DAO.sessionThread.set(null);
     }
 
+    //Closing session
     public static void close() {
         getSession().close();
         DAO.sessionThread.set(null);

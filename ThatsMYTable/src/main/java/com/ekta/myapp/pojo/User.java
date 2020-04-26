@@ -1,3 +1,4 @@
+
 package com.ekta.myapp.pojo;
 
 import javax.persistence.Column;
@@ -12,15 +13,18 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-
+/*
+	User entity
+	Extends from person
+	Is a simple user looking to reserve restaurant
+	Primary key is also the foreign key (personID) to person table
+ */
 @Entity
 @Table(name="user_tbl")
 @PrimaryKeyJoinColumn(name="personID")
 public class User extends Person {
 	
-	
-	
-	
+
 	
 	public User(){
 		

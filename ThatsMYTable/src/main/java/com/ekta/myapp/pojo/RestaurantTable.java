@@ -13,30 +13,38 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+//Table entity for restaurant
 @Entity
 @Table(name="restaurant_table_tbl")
 
 public class RestaurantTable {
+
+	//tableID is primary key which is generated automatically
 	@Id
 	@GeneratedValue
 	@Column(name="tableID",unique=true,nullable=false)
 	private int tableID;
-	
+
+	//Table number for the restaurant
 	@Column(name="tableNo")
 	private int tableNo;
-	
+
+	//Table status (Can be "vacant" or "reserved"
 	@Column(name="tableStatus")
 	private String tableStatus;
-	
+
+	//Foreign key to restaurant table
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="restID")
 	private Restaurant restaurant;
-	
-	
+
+
 	
 	public RestaurantTable(){
 		
 	}
+
+	/* ******** Getter and Setter functions START ******** */
 
 	public int getTableNo() {
 		return tableNo;
@@ -69,6 +77,8 @@ public class RestaurantTable {
 	public void setTableStatus(String tableStatus) {
 		this.tableStatus = tableStatus;
 	}
+
+	/* ******** Getter and Setter functions END ******** */
 
 	
 }

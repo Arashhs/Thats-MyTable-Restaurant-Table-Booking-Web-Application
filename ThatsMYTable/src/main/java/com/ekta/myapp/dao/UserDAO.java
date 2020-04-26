@@ -13,26 +13,27 @@ public class UserDAO extends DAO {
 		
 	}
 
-	
+
+	//Create user
 	 public User create(String firstName, String lastName,String city,String username,String password,String roleType)
 	            throws ProjException {
 	      if(findUser(username))  {
-	    	  
-	    	  System.out.println("User already exists");
+	    	  System.out.println("User already exists"); //User exists in database
 	    	  return null;
 	    	  
 	      }
-	      else{ 
+
+	      else {
+
 		 try {
 	            begin();
+
 	            System.out.println("inside DAO");
 	            
-	            
-	            User user=new User();
+	            User user = new User();
 	            
 	            user.setFirstName(firstName);
 	            user.setLastName(lastName);
-	            
 	            user.setCity(city);
 	            user.setUsername(username);
 	            user.setPassword(password);
@@ -41,21 +42,23 @@ public class UserDAO extends DAO {
 	            getSession().save(user);
 	            
 	            commit();
+
 	            return user;
 	        }
 	      
 	      
 	      catch (HibernateException e) {
 	            rollback();
-	            //throw new AdException("Could not create user " + username, e);
-	            throw new ProjException("Exception while creating user: " + e.getMessage());
+	            throw new ProjException("Error creating user: " + e.getMessage());
 	        }
 	      
 	     
 	    }
 
 	 }
-	    public void delete(User user)
+
+	 //Delete user
+	 public void delete(User user)
 	            throws ProjException {
 	        try {
 	            begin();
@@ -63,24 +66,26 @@ public class UserDAO extends DAO {
 	            commit();
 	        } catch (HibernateException e) {
 	            rollback();
-	            throw new ProjException("Could not delete user " + user.getUsername(), e);
+	            throw new ProjException("Cannot delete user " + user.getUsername(), e);
 	        }
-	    }
-	    
-	    public boolean findUser(String username){
+	}
+
+	//Return true if user exists and false if doesn't exist
+	public boolean findUser(String username){
 	    	begin();
 	    	Query q = getSession().createQuery("from Person where username=:username");
 	    	q.setString("username", username);
 	    	Person person = (Person) q.uniqueResult();
+
 	    	if(person!=null){
 	    		
-	    		return true;
+	    		return true; //User exists
 	    		
 	    	}
-	    	
 	    	else{
-	    		return false;
+	    		return false; //User doesn't exist
 	    	}
 	    	
-	    }
+	}
+
 }

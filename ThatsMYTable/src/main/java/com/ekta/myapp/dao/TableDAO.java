@@ -19,27 +19,29 @@ public class TableDAO extends DAO{
             throws ProjException {
         try {
             begin();
+
             System.out.println("inside TableDAO");
-            
-            
+
             RestaurantTable restTable = new RestaurantTable();
-            
-           restTable.setTableNo(tableNo);
-           restTable.setTableStatus("vacant");
-           restTable.setRestaurant(restaurant);
-           //restAdmin.setRestaurant(rest);
-            
-            //getSession().merge(restAdmin);
+
+            restTable.setTableNo(tableNo);
+            restTable.setTableStatus("vacant"); //By default table is vacant
+            restTable.setRestaurant(restaurant);
+
+            //restAdmin.setRestaurant(rest);
+			//getSession().merge(restAdmin);
+
             getSession().merge(restTable);
             commit();
             return restTable;
+
         } catch (HibernateException e) {
             rollback();
-            //throw new AdException("Could not create restaurant " + restName, e);
-            throw new ProjException("Exception while creating restaurant: " + e.getMessage());
+            throw new ProjException("Error creating restaurant table: " + e.getMessage());
         }
     }
-	
+
+    //update table status
 	 public int update(int tableNo,String tableStatus, Restaurant rest)
 	            throws ProjException {
 	        try {
@@ -49,6 +51,7 @@ public class TableDAO extends DAO{
 	            Query q = getSession().createQuery("update RestaurantTable set tableStatus =:tableStatus where tableNo =:tableNo");
 	            q.setString("tableStatus",tableStatus);
 	            q.setInteger("tableNo", tableNo);
+
 	            int result = q.executeUpdate();
 	            
 	            
@@ -56,15 +59,17 @@ public class TableDAO extends DAO{
 	            //getSession().delete(restTable);
 	            
 	            commit();
+
 	            return result;
 	            
 	        } catch (HibernateException e) {
 	            rollback();
-	            throw new ProjException("Could not update table occupancy " , e);
-	            
+	            throw new ProjException("Cannot update table status " , e);
 	        }
 	    }
-	 
+
+
+
 	 public int updateVacancy(int tableNo,String tableStatus, Restaurant rest)
 	            throws ProjException {
 	        try {
@@ -74,6 +79,7 @@ public class TableDAO extends DAO{
 	            Query q = getSession().createQuery("update RestaurantTable set tableStatus =:tableStatus where tableNo =:tableNo");
 	            q.setString("tableStatus",tableStatus);
 	            q.setInteger("tableNo", tableNo);
+
 	            int result = q.executeUpdate();
 	            
 	            
@@ -85,11 +91,13 @@ public class TableDAO extends DAO{
 	            
 	        } catch (HibernateException e) {
 	            rollback();
-	            throw new ProjException("Could not update table occupancy " , e);
+				throw new ProjException("Cannot update table vacancy " , e);
 	            
 	        }
 	    }
-	 
+
+
+
 	 public int updateUserTable(int tableNo,String tableStatus, Restaurant rest)
 	            throws ProjException {
 	        try {
@@ -97,8 +105,10 @@ public class TableDAO extends DAO{
 	            
 	            
 	            Query q = getSession().createQuery("update RestaurantTable set tableStatus =:tableStatus where tableNo =:tableNo");
+
 	            q.setString("tableStatus",tableStatus);
 	            q.setInteger("tableNo",tableNo);
+
 	            int result = q.executeUpdate();
 	            
 	            
@@ -110,18 +120,21 @@ public class TableDAO extends DAO{
 	            
 	        } catch (HibernateException e) {
 	            rollback();
-	            throw new ProjException("Could not update table occupancy " , e);
+				throw new ProjException("Cannot update table status " , e);
 	            
 	        }
 	    }
-	 
+
+
 	 public RestaurantTable fetchMyRestaurantTable(int tableNo)
 	    {
 	    	try {
 	            begin();
 	            Query q = getSession().createQuery("from RestaurantTable where tableNo=:tableNo");
+
 	            q.setParameter("tableNo",tableNo);
 	            RestaurantTable restaurantTable =(RestaurantTable) q.uniqueResult();
+
 	            commit();
 	            return restaurantTable;
 	           
