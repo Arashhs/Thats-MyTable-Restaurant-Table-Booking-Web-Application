@@ -1,7 +1,7 @@
 That's MyTable v2!- Online Restaurant Table Reservation Application
 ----------------------------------------------------------------
 <p align="center">
-  <img width="460" height="300" src="featured.jpg">
+  <img src="featured.jpg">
 </p>
 
 That's MyTable V2 is a Java Spring MVC and Hibernate project used for the implementation of my Software Engineering (I) project for table booking and food reservations in a restaurant.
@@ -11,7 +11,7 @@ That's MyTable V2 is a Java Spring MVC and Hibernate project used for the implem
 
 Spring MVC Architecture
 -------------------------------------------------------------------
-This application is built on the Spring MVC architecture where we have our :
+This application is built on the Spring MVC architecture where we have our:
 * Model(M)- Stores data as per the instruction given by the controller(Eg: POJO for User.java, Restaurant.java, etc)
 * View(V)- rendered as per the flow of the application(Eg: home.jsp, login.jsp, etc)
 * Controller(C)- Has the logic that takes in the input parameters and renders the respective view(Eg: LoginController.java,                                  RestaurantController.java, etc)
